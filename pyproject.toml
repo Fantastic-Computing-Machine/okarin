@@ -1,0 +1,18 @@
+[project]
+name = "okarin"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "d>=0.2.2",
+    "fastapi>=0.128.0",
+    "google-api-python-client>=2.187.0",
+    "google-auth-httplib2>=0.3.0",
+    "google-auth-oauthlib>=1.2.3",
+    "google-genai>=0.3.0",
+    "langchain-google-community[calendar]>=3.0.2",
+    "langchain-google-vertexai>=3.2.0",
+    "python-dotenv>=1.2.1",
+    "uvicorn>=0.40.0",
+]
