@@ -1,7 +1,6 @@
 from fastapi import APIRouter
-from agent_factory.chat_agent import get_agent
 from datamodels.chat import ChatRequest, ChatResponse
-from langchain.messages import AIMessage, HumanMessage
+from services.chat_service import process_message
 
 router = APIRouter(prefix="/chat")
 
@@ -9,12 +8,5 @@ router = APIRouter(prefix="/chat")
 async def chat(
     chat_request: ChatRequest,
 ):
-    agent = get_agent()
-    reply = agent.agent.invoke(
-        {"messages": [{"role": "user", "content": chat_request.message}]}
-    )
-    if reply is None or not reply.get("messages", []):
-        reply = "I'm sorry, I couldn't process your request."
-    else:
-        reply = reply.get("messages", [])[-1].content
+    reply = process_message(chat_request.message)
     return ChatResponse(reply=reply)
