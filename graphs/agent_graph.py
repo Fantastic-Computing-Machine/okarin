@@ -8,6 +8,7 @@ from langgraph.graph import StateGraph, END
 from node.classify_intent import classify_intent
 from node.calender_node import calender_node
 from node.general_node import general_chat_node
+from node.todo_node import todo_node
 from state.OkarinAgentState import OkarinAgentState
 from pathlib import Path
 from IPython.display import display, Image
@@ -17,6 +18,7 @@ def build_graph(save_png: bool = False):
     agent_graph = StateGraph(OkarinAgentState)
     agent_graph.add_node("ClassifyIntent", classify_intent)
     agent_graph.add_node("CalendarState", calender_node)
+    agent_graph.add_node("TodoState", todo_node)
     agent_graph.add_node("GeneralState", general_chat_node)  # uncomment if you have it
 
     agent_graph.set_entry_point("ClassifyIntent")
@@ -25,6 +27,8 @@ def build_graph(save_png: bool = False):
         """Return a routing key for conditional edges."""
         if state.intent_classification and state.intent_classification.intent == "calendar":
             return "calendar"
+        if state.intent_classification and state.intent_classification.intent == "todo":
+            return "todo"
         return "general"
 
     agent_graph.add_conditional_edges(
@@ -32,10 +36,12 @@ def build_graph(save_png: bool = False):
         _route_intent,
         {
             "calendar": "CalendarState",
+            "todo": "TodoState",
             "general": "GeneralState",
         },
     )
     agent_graph.add_edge("CalendarState", END)
+    agent_graph.add_edge("TodoState", END)
     agent_graph.add_edge("GeneralState", END)
 
     chain: CompiledStateGraph[

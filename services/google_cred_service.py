@@ -32,6 +32,21 @@ def get_google_credentials(scopes):
         client_secrets_file=CREDENTIALS_FILE,
     )
 
+    # If the cached token lacks required scopes, force a fresh OAuth run.
+    if credentials and credentials.scopes:
+        missing_scopes = set(scopes) - set(credentials.scopes)
+        if missing_scopes:
+            # Drop the stale token so the next load triggers the OAuth consent screen.
+            try:
+                os.remove(TOKEN_FILE)
+            except FileNotFoundError:
+                pass
+            credentials = load_google_credentials(
+                scopes=scopes,
+                token_file=TOKEN_FILE,
+                client_secrets_file=CREDENTIALS_FILE,
+            )
+
     return credentials
 
 

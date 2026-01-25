@@ -15,7 +15,10 @@ from langchain_google_community import (
 
 from langchain_core.tools import BaseTool
 
-DEFAULT_SCOPES: list[str] = ["https://www.googleapis.com/auth/calendar"]
+DEFAULT_SCOPES: list[str] = [
+    "https://www.googleapis.com/auth/calendar",
+    "https://www.googleapis.com/auth/tasks",
+]
 
 GMAIL_API_SCOPES: list[str] = [
     "https://www.googleapis.com/auth/gmail.readonly",
@@ -25,9 +28,10 @@ GMAIL_API_SCOPES: list[str] = [
 
 ALL_SCOPES: list[str] = DEFAULT_SCOPES + GMAIL_API_SCOPES
 
+
 def get_calendar_tools(
-    token_file: str = "tools/token.json",
-    client_secrets_file: str = "tools/credentials.json",
+    token_file: str = "config/token.json",
+    client_secrets_file: str = "config/credentials.json",
     scopes: Sequence[str] | None = None,
 ) -> list[BaseTool]:
     """Return Google Calendar LangChain tools.

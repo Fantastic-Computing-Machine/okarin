@@ -26,6 +26,8 @@ def classify_intent(state:OkarinAgentState):
 
     if classification.intent == "calendar":
         goto = "CalendarState"
+    elif classification.intent == "todo":
+        goto = "TodoState"
     else:
         # Route everything else to general chat for now.
         goto = "GeneralState"

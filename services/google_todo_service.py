@@ -1,5 +1,5 @@
 import os
-import pickle # For storing token
+import pickle  # For storing token
 from google.adk.agents import Agent
 from google.genai import types
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -7,7 +7,8 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from services.google_cred_service import get_google_credentials
-SCOPES = ['https://www.googleapis.com/auth/tasks']
+
+SCOPES = ["https://www.googleapis.com/auth/tasks"]
 TOKEN_PICKLE_FILE = "token.json"
 CREDENTIALS_FILE = "credentials.json"
 
@@ -18,7 +19,7 @@ _task_id_map_cache = None
 def get_tasks_service():
     creds = get_google_credentials(SCOPES)
     try:
-        service = build('tasks', 'v1', credentials=creds)
+        service = build("tasks", "v1", credentials=creds)
         return service
     except Exception as e:
         print(f"An error occurred building the service: {e}")
@@ -83,7 +84,6 @@ def add_task(description: str) -> str:
     service = get_tasks_service()
     task_body = {
         "title": description,
-        # 'notes': 'Optional notes here' # You can extend this
     }
     try:
         created_task = (
@@ -140,6 +140,7 @@ def complete_task(task_number: int) -> str:
         return (
             f"An unexpected error occurred while completing task number {task_number}."
         )
+
 
 def get_tools():
     return [

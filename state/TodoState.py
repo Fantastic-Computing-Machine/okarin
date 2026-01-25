@@ -1,3 +1,5 @@
+from pydantic import BaseModel
+
 # --- Agent Definition ---
 agent_todo_instruction_text = """
 You are a helpful to-do list assistant that interacts with Google Tasks.
@@ -9,12 +11,11 @@ If the user refers to a task by description for completion, first list the tasks
 Always confirm actions taken.
 When listing tasks, inform the user that the numbers provided are for use with the 'complete_task' tool.
 If 'complete_task' is called with a description, tell the user you need the task number from the list and suggest they list tasks first.
-"""
+""".strip()
 
-root_agent = Agent(
-    model=MODEL,
-    name="agent_todo_google_tasks",
-    description="A conversational agent to manage a to-do list using Google Tasks."
-    + agent_todo_instruction_text,
-    tools=[list_tasks, add_task, complete_task],
-)
+
+class TodoState(BaseModel):
+    """Lightweight state container for todo interactions."""
+
+    user_message: str
+    response_message: str
