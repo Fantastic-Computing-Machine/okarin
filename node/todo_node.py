@@ -17,9 +17,23 @@ def list_google_tasks() -> str:
 
 
 @tool
-def add_google_task(description: str) -> str:
-    """Add a new task to Google Tasks with the given description."""
-    return add_task(description)
+def add_google_task(
+    description: str,
+    details: str | None = None,
+    summary: str | None = None,
+    date: str | None = None,
+    start_time: str | None = None,
+    end_time: str | None = None,
+) -> str:
+    """Add a new task with optional details, summary, date, start_time, end_time."""
+    return add_task(
+        description=description,
+        details=details,
+        summary=summary,
+        date=date,
+        start_time=start_time,
+        end_time=end_time,
+    )
 
 
 @tool
